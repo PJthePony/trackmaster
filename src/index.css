@@ -604,30 +604,39 @@ body {
   margin-top: 0.2rem;
 }
 
-/* Artist hint */
-.artist-hint {
-  font-family: var(--font-typewriter);
-  font-size: 0.88rem;
-  color: var(--text-secondary);
+/* Synonym hint (clue 3) */
+.synonym-hint {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 0.5rem;
   animation: fadeIn 0.4s ease;
 }
 
-.artist-hint__letter {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.synonym-hint__row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.synonym-hint__label {
+  font-family: var(--font-typewriter);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  min-width: 5.5rem;
+}
+
+.synonym-hint__value {
   font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-style: italic;
+  font-size: 1rem;
   color: var(--amber-light);
-  background: rgba(212, 148, 26, 0.1);
+  background: rgba(212, 148, 26, 0.08);
   border: 1px solid var(--border-bright);
   border-radius: var(--radius-sm);
-  width: 2.2rem;
-  height: 2.4rem;
+  padding: 0.25em 0.7em;
   animation: pulseGlow 1.6s ease-in-out infinite;
 }
 

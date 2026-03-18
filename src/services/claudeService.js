@@ -20,13 +20,15 @@ Each element must have exactly these fields:
 - "rank": integer 1–10
 - "title": the song title (string)
 - "artist": the primary artist name (string, no "feat." additions)
-- "lyrics_preview": a two-line lyrical paraphrase that captures the opening theme, imagery, and feel of the song WITHOUT quoting the actual copyrighted lyrics verbatim — write it in the style and voice of the song so it's recognizable to fans, separated by a newline character
+- "song_summary": a 1–2 sentence description of what the song is about — its theme, story, or emotional core — specific enough to jog a fan's memory but without naming the title or artist
+- "title_synonym": a clever synonym or thematic equivalent of the song title that hints at its meaning without stating it directly (e.g. if the title is "Thriller", write "Spine-Tingling Chiller")
+- "artist_synonym": a creative wordplay or synonym phrase for the artist name that hints at who it is without stating it directly (e.g. if the artist is "Michael Jackson", write "Divine Messenger + Son of Jack")
 
 Important:
 - Use accurate Billboard chart data
-- For lyrics_preview, paraphrase the opening lines' meaning and mood — do not reproduce exact copyrighted text
+- title_synonym and artist_synonym should be genuinely helpful hints, not impossible riddles
 - Return ONLY valid JSON — no markdown fences, no explanation, no extra text
-- Format: [{"rank":1,"title":"...","artist":"...","lyrics_preview":"line1\\nline2"},...]`,
+- Format: [{"rank":1,"title":"...","artist":"...","song_summary":"...","title_synonym":"...","artist_synonym":"..."},...]`,
       },
     ],
   })

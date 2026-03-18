@@ -23,10 +23,9 @@ export default function GameBoard({ year, songs, totalScore, onSongComplete, onG
   const inputRef     = useRef(null)
 
   const currentSong = songs[songIndex]
-  const lyricsLines = currentSong?.lyrics_preview
-    ? currentSong.lyrics_preview.split('\n').filter(Boolean)
-    : []
-  const artistFirstLetter = currentSong?.artist?.trim()?.[0]?.toUpperCase() ?? '?'
+  const songSummary = currentSong?.song_summary ?? ''
+  const titleSynonym = currentSong?.title_synonym ?? ''
+  const artistSynonym = currentSong?.artist_synonym ?? ''
 
   // ── Effect 1: Reset all per-song state when song changes ──────────────
   useEffect(() => {
@@ -265,22 +264,31 @@ export default function GameBoard({ year, songs, totalScore, onSongComplete, onG
             Year: <strong>{year}</strong>
           </div>
 
-          {/* Attempt 2+: lyrics */}
-          {attempt >= 2 && phase === 'guess' && lyricsLines.length > 0 && (
+          {/* Attempt 2+: song summary */}
+          {attempt >= 2 && phase === 'guess' && songSummary && (
             <div className="lyrics-reveal">
-              <div className="lyrics-reveal__label">Lyrics</div>
+              <div className="lyrics-reveal__label">What it's about</div>
               <blockquote className="lyrics-reveal__text">
-                {lyricsLines[0] && <p>{lyricsLines[0]}</p>}
-                {lyricsLines[1] && <p>{lyricsLines[1]}</p>}
+                <p>{songSummary}</p>
               </blockquote>
             </div>
           )}
 
-          {/* Attempt 3: artist first letter */}
-          {attempt >= 3 && phase === 'guess' && (
-            <div className="artist-hint">
-              Artist starts with:
-              <span className="artist-hint__letter">{artistFirstLetter}</span>
+          {/* Attempt 3: synonyms for title and artist */}
+          {attempt >= 3 && phase === 'guess' && (titleSynonym || artistSynonym) && (
+            <div className="synonym-hint">
+              {titleSynonym && (
+                <div className="synonym-hint__row">
+                  <span className="synonym-hint__label">Title hint</span>
+                  <span className="synonym-hint__value">{titleSynonym}</span>
+                </div>
+              )}
+              {artistSynonym && (
+                <div className="synonym-hint__row">
+                  <span className="synonym-hint__label">Artist hint</span>
+                  <span className="synonym-hint__value">{artistSynonym}</span>
+                </div>
+              )}
             </div>
           )}
 
