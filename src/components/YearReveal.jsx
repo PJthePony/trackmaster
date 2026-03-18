@@ -37,7 +37,10 @@ export default function YearReveal({ year, onDone, onReroll }) {
         </button>
         <button
           className={`reveal-reroll ${stage >= 2 ? 'visible' : ''}`}
-          onClick={onReroll}
+          onClick={() => {
+            setStage(0)                    // fade everything out
+            setTimeout(onReroll, 700)      // then swap the year
+          }}
         >
           Get a different year
         </button>
