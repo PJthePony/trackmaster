@@ -134,6 +134,30 @@ export default function GameBoard({ year, songs, totalScore, onSongComplete, onG
     }
   }
 
+  // ── Shared wrong-answer progression logic ────────────────────────────
+  function progressWrong() {
+    if (attempt < 3) {
+      const nextHint = attempt === 1
+        ? 'Not quite — here are some lyrics…'
+        : 'Still no — here\'s a hint about the artist…'
+      setResultFlash({ type: 'wrong', message: nextHint })
+      setTimeout(() => {
+        setResultFlash(null)
+        setAttempt((a) => a + 1)
+        setTitleInput('')
+        setArtistInput('')
+      }, 1300)
+    } else {
+      setResultFlash({
+        type: 'reveal',
+        message: `"${currentSong.title}" by ${currentSong.artist}`,
+      })
+      setIsAdvancing(true)
+      onSongComplete(currentSong, 0, 3)
+      setTimeout(() => advanceToNext(), 2600)
+    }
+  }
+
   // ── Handle guess submission ───────────────────────────────────────────
   function handleSubmit(e) {
     e.preventDefault()
@@ -147,27 +171,15 @@ export default function GameBoard({ year, songs, totalScore, onSongComplete, onG
       setIsAdvancing(true)
       onSongComplete(currentSong, pts, attempt)
       setTimeout(() => advanceToNext(), 1800)
-    } else if (attempt < 3) {
-      const nextHint = attempt === 1
-        ? 'Not quite — here are some lyrics…'
-        : 'Still no — here\'s a hint about the artist…'
-      setResultFlash({ type: 'wrong', message: nextHint })
-      setTimeout(() => {
-        setResultFlash(null)
-        setAttempt((a) => a + 1)
-        setTitleInput('')
-        setArtistInput('')
-      }, 1300)
     } else {
-      // All 3 attempts used — reveal the answer
-      setResultFlash({
-        type: 'reveal',
-        message: `"${currentSong.title}" by ${currentSong.artist}`,
-      })
-      setIsAdvancing(true)
-      onSongComplete(currentSong, 0, 3)
-      setTimeout(() => advanceToNext(), 2600)
+      progressWrong()
     }
+  }
+
+  // ── Handle skip / give me a clue ─────────────────────────────────────
+  function handlePass() {
+    if (isAdvancing) return
+    progressWrong()
   }
 
   if (!currentSong) return null
@@ -337,13 +349,23 @@ export default function GameBoard({ year, songs, totalScore, onSongComplete, onG
                 ))}
               </div>
 
-              <button
-                type="submit"
-                className="btn-primary guess-form__submit"
-                disabled={isAdvancing || !titleInput.trim() || !artistInput.trim()}
-              >
-                Submit Guess
-              </button>
+              <div className="guess-form__actions">
+                <button
+                  type="button"
+                  className="btn-pass"
+                  onClick={handlePass}
+                  disabled={isAdvancing}
+                >
+                  {attempt < 3 ? 'Give me a clue' : 'Reveal answer'}
+                </button>
+                <button
+                  type="submit"
+                  className="btn-primary guess-form__submit"
+                  disabled={isAdvancing || !titleInput.trim() || !artistInput.trim()}
+                >
+                  Submit Guess
+                </button>
+              </div>
             </div>
           </form>
         )}

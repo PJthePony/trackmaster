@@ -730,6 +730,35 @@ body {
   gap: 1rem;
 }
 
+.guess-form__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.btn-pass {
+  font-family: var(--font-typewriter);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: color var(--t-fast), border-color var(--t-fast);
+}
+
+.btn-pass:hover:not(:disabled) {
+  color: var(--cream-dim);
+  border-color: var(--amber-dim);
+}
+
+.btn-pass:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
 /* Attempt dots */
 .guess-form__attempts {
   display: flex;
