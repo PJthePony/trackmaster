@@ -1,19 +1,20 @@
 import { useEffect, useState } from 'react'
 
-export default function YearReveal({ year, onDone }) {
+export default function YearReveal({ year, onDone, onReroll }) {
   const [stage, setStage] = useState(0)
   // stage 0: blank → fade in "The year is..."
   // stage 1: show year with big animate
-  // stage 2: show CTA button
+  // stage 2: show CTA buttons
 
   useEffect(() => {
+    setStage(0)
     const t1 = setTimeout(() => setStage(1), 800)
     const t2 = setTimeout(() => setStage(2), 2200)
     return () => {
       clearTimeout(t1)
       clearTimeout(t2)
     }
-  }, [])
+  }, [year])
 
   return (
     <div className="year-reveal">
@@ -33,6 +34,12 @@ export default function YearReveal({ year, onDone }) {
           onClick={onDone}
         >
           Drop the Needle
+        </button>
+        <button
+          className={`reveal-reroll ${stage >= 2 ? 'visible' : ''}`}
+          onClick={onReroll}
+        >
+          Get a different year
         </button>
       </div>
 

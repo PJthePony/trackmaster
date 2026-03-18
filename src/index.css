@@ -192,6 +192,29 @@ body {
   transform: translateY(0);
 }
 
+.reveal-reroll {
+  font-family: var(--font-typewriter);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  opacity: 0;
+  transition: opacity var(--t-slow) 0.4s, color var(--t-fast);
+  padding: 0.25rem 0;
+}
+
+.reveal-reroll.visible {
+  opacity: 1;
+}
+
+.reveal-reroll:hover {
+  color: var(--cream-dim);
+}
+
 /* Spinning vinyl graphic */
 .spinning-vinyl {
   position: absolute;

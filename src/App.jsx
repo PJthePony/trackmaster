@@ -18,7 +18,7 @@ const PHASES = {
 }
 
 export default function App() {
-  const [year] = useState(getRandomYear)
+  const [year, setYear] = useState(getRandomYear)
   const [phase, setPhase] = useState(PHASES.YEAR_REVEAL)
   const [songs, setSongs] = useState([])
   const [loadError, setLoadError] = useState(null)
@@ -53,7 +53,7 @@ export default function App() {
   return (
     <div className="app">
       {phase === PHASES.YEAR_REVEAL && (
-        <YearReveal year={year} onDone={handleYearRevealDone} />
+        <YearReveal year={year} onDone={handleYearRevealDone} onReroll={() => setYear(getRandomYear())} />
       )}
 
       {phase === PHASES.LOADING && (
