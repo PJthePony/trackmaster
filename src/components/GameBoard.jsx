@@ -124,6 +124,21 @@ export default function GameBoard({ year, songs, totalScore, onSongComplete, onG
     }
   }, [phase, isAdvancing])
 
+  // ── Replay the audio preview ─────────────────────────────────────────
+  function handleReplay() {
+    const audio = audioRef.current
+    if (!audio || !currentSong?.previewUrl) return
+    audio.currentTime = 0
+    audio.play().catch(() => {})
+    // Stop after 5 seconds
+    setTimeout(() => {
+      if (audio) {
+        audio.pause()
+        audio.currentTime = 0
+      }
+    }, 5000)
+  }
+
   // ── Advance to the next song or end the game ──────────────────────────
   function advanceToNext() {
     if (songIndex >= songs.length - 1) {
@@ -259,9 +274,14 @@ export default function GameBoard({ year, songs, totalScore, onSongComplete, onG
             </div>
           )}
 
-          {/* Year clue — always visible */}
+          {/* Year clue + optional replay button — always visible */}
           <div className="clue-section__year">
-            Year: <strong>{year}</strong>
+            <span>Year: <strong>{year}</strong></span>
+            {phase === 'guess' && currentSong.previewUrl && (
+              <button className="btn-replay" onClick={handleReplay} title="Replay audio clip">
+                ▶ Replay clip
+              </button>
+            )}
           </div>
 
           {/* Attempt 2+: song summary */}
